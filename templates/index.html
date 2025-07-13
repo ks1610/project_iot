@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT Control Panel</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        h2 { color: #007BFF; }
+        .status { font-size: 1.5em; }
+        button { margin: 5px; padding: 10px 20px; font-size: 1em; }
+    </style>
+</head>
+<body>
+    <h2>DHT11 Sensor Readings</h2>
+    <p>Temp: <span id = "temp">--</span>C</p>
+    <p>Humi: <span id = "hum">--</spam>%</p>
+
+    <!--h2>Controls</h2>
+    <form method="POST" action="/control">
+        <button type="submit" name="device" value="led" onclick="setState('led', 'ON')">LED ON</button>
+        <button type="submit" name="device" value="led" onclick="setState('led', 'OFF')">LED OFF</button>
+        <br><br>
+        <button type="submit" name="device" value="relay" onclick="setState('relay', 'ON')">Relay ON</button>
+        <button type="submit" name="device" value="relay" onclick="setState('relay', 'OFF')">Relay OFF</button>
+    </form-->
+    <h2>Controls</h2>
+
+    <button onclick="setState('led', 'ON')">LED ON</button>
+    <button onclick="setState('led', 'OFF')">LED OFF</button>
+    <br><br>
+    <button onclick="setState('relay', 'ON')">Relay ON</button>
+    <button onclick="setState('relay', 'OFF')">Relay OFF</button>
+
+    <script>
+        function updateData() {
+            fetch("/data")
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("temp").innerText = data.temp;
+                    document.getElementById("hum").innerText = data.hum;
+                });
+        }
+        setInterval(updateData, 3000);
+        function setState(device, state) {
+            fetch("/control", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `device=${device}&state=${state}`
+            });
+        }
+    </script>
+</body>
+</html>
+<!--DOCTYPE html>
+<html>
+  <head><title>Test Page</title></head>
+  <body>
+    <h1>Hello from Flask!</h1>
+  </body>
+</html-->
+
