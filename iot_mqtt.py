@@ -1,4 +1,3 @@
-"""
 import paho.mqtt.client as mqtt
 import adafruit_dht
 import board
@@ -74,8 +73,9 @@ try:
 except KeyboardInterrupt:
     GPIO.cleanup()
     client.disconnect()
-"""
 
+"""
+# Request send and recieve testing
 import paho.mqtt.client as mqtt
 import time
 import threading
@@ -136,4 +136,4 @@ try:
         time.sleep(1)
 except KeyboardInterrupt:
     print("Simulated system stopped.")
-
+"""
